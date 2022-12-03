@@ -1,6 +1,5 @@
 package hu.herpaipeter.aoc2022.day02;
 
-import hu.herpaipeter.aoc2022.day01.FoodCalories;
 import hu.herpaipeter.common.FileReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
