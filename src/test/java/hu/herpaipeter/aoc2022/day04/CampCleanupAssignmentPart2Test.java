@@ -42,8 +42,8 @@ public class CampCleanupAssignmentPart2Test {
 
     @Test
     void file_result() {
-        List<String> rangePairs = FileReader.readStringLines("src\\test\\java\\hu\\herpaipeter\\aoc2022\\day04\\input.txt");
-        System.out.println(assignment.getNumberOfPartiallyContains(rangePairs));
+        List<String> inputTxt = FileReader.readAoCInputFileLines("day04");
+        System.out.println(assignment.getNumberOfPartiallyContains(inputTxt));
     }
 
 }

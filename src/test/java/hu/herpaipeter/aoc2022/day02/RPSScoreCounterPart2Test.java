@@ -46,7 +46,7 @@ public class RPSScoreCounterPart2Test {
 
     @Test
    void file_result_part2() {
-        List<String> roundTexts = FileReader.readStringLines("src\\test\\java\\hu\\herpaipeter\\aoc2022\\day02\\input.txt");
-        System.out.println(scoreCounter.countByOutcome(roundTexts));
+        List<String> inputTxt = FileReader.readAoCInputFileLines("day02");
+        System.out.println(scoreCounter.countByOutcome(inputTxt));
     }
 }

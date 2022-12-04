@@ -58,7 +58,7 @@ public class FoodCaloriesPart1Test {
 
     @Test
     void get_file_values() {
-        List<String> calories = FileReader.readStringLines("src\\test\\java\\hu\\herpaipeter\\aoc2022\\day01\\input.txt");
-        System.out.println(foodCalories.max(calories));
+        List<String> inputTxt = FileReader.readAoCInputFileLines("day01");
+        System.out.println(foodCalories.max(inputTxt));
     }
 }

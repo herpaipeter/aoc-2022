@@ -64,7 +64,7 @@ public class RucksackOrganizerPart2Test {
 
     @Test
     void file_result() {
-        List<String> roundTexts = FileReader.readStringLines("src\\test\\java\\hu\\herpaipeter\\aoc2022\\day03\\input.txt");
-        System.out.println(organizer.sumOfThreeRucksacksBadge(roundTexts));
+        List<String> inputTxt = FileReader.readAoCInputFileLines("day03");
+        System.out.println(organizer.sumOfThreeRucksacksBadge(inputTxt));
     }
 }
