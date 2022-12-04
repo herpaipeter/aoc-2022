@@ -22,15 +22,13 @@ public class ClosedRange {
     }
 
     public ClosedRange getIntersection(ClosedRange range) {
-        if (this.from <= range.from && range.to <= this.to)
-            return new ClosedRange(range.from, range.to);
-        else if (range.from <= this.from && this.to <= range.to)
-            return new ClosedRange(this.from, this.to);
-        else if (this.from <= range.from && range.from <= this.to)
-            return new ClosedRange(range.from, this.to);
-        else if (this.from <= range.to && range.from <= this.to)
-            return new ClosedRange(this.from, range.to);
-        return empty();
+        if (isDisjunctiveRange(range))
+            return empty();
+        return new ClosedRange(Math.max(range.from, this.from), Math.min(range.to, this.to));
+    }
+
+    private boolean isDisjunctiveRange(ClosedRange range) {
+        return this.to < range.from || range.to < this.from;
     }
 
     @Override
