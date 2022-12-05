@@ -1,6 +1,7 @@
 package hu.herpaipeter.aoc2022.day03;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class RucksackOrganizer {
 
@@ -14,36 +15,27 @@ public class RucksackOrganizer {
         return getCharValue(getCompartmentsSameChar(firstComp, secondComp));
     }
 
-    private static int getCharValue(int charIntValue) {
-        if (charIntValue == 0)
-            return 0;
-        if ((int)'a' <= charIntValue)
-            return charIntValue - 'a' + 1;
-        return charIntValue - 'A' + 27;
+    private static int getCharValue(int ch) {
+        return 0 < ch ? ch - ((int)'a' <= ch ? 'a' - 1 : 'A' - 27) : 0;
     }
 
     private static int getCompartmentsSameChar(String firstComp, String secondComp) {
-        for(int i = 0; i < firstComp.length(); i++)
-            for (int j = 0; j < secondComp.length(); j++)
-                if (firstComp.charAt(i) == secondComp.charAt(j))
-                    return firstComp.charAt(i);
-        return 0;
+        return firstComp.chars()
+                .filter(fc -> secondComp.chars().anyMatch(sc -> sc == fc))
+                .findFirst().orElse(0);
     }
 
     public int sumOfThreeRucksacksBadge(List<String> rucksacks) {
-        int sum = 0;
-        for (int g = 0; g < rucksacks.size(); g += 3) {
-            sum += getSumOfThree(rucksacks, g);
-        }
-        return sum;
+        return IntStream.iterate(0, i -> i < rucksacks.size(), i -> i + 3)
+                        .map(g -> getSumOfThree(rucksacks, g))
+                        .sum();
     }
 
     private static int getSumOfThree(List<String> rucksacks, int g) {
-        for (int i = 0; i < rucksacks.get(g).length(); i++) {
-            char nextChar = rucksacks.get(g).charAt(i);
-            if (rucksacks.get(g + 1).contains(String.valueOf(nextChar)) && rucksacks.get(g + 2).contains(String.valueOf(nextChar)))
-                return getCharValue(nextChar);
-        }
-        return 0;
+        int sameChar = rucksacks.get(g).chars()
+                            .filter(fc -> rucksacks.get(g + 1).chars().anyMatch(c -> c == fc) &&
+                                          rucksacks.get(g + 2).chars().anyMatch(c -> c == fc))
+                            .findFirst().orElse(0);
+        return getCharValue(sameChar);
     }
 }
