@@ -1,15 +1,8 @@
 package hu.herpaipeter.aoc2022.day04;
 
-public class ClosedRange {
-    final int from;
-    final int to;
+public record ClosedRange(int from, int to) {
 
-    static final ClosedRange EMPTY_RANGE = new ClosedRange(0,-1);
-
-    public ClosedRange(int from, int to) {
-        this.from = from;
-        this.to = to;
-    }
+    static final ClosedRange EMPTY_RANGE = new ClosedRange(0, -1);
 
     public static ClosedRange empty() {
         return EMPTY_RANGE;

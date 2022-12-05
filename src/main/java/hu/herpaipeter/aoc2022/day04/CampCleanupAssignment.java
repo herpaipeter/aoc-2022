@@ -8,7 +8,7 @@ public class CampCleanupAssignment {
     }
 
     private boolean isFullyContainsOneRange(String pair) {
-        return isValidIntersection(pair, new FullRangeIntersection());
+        return isValidIntersection(pair, (range1, range2, intersection) -> intersection.equals(range1) || intersection.equals(range2));
     }
 
     private static ClosedRange getClosedRange(String rangeStr) {
@@ -21,7 +21,7 @@ public class CampCleanupAssignment {
     }
 
     private boolean isPartialIntersection(String pair) {
-        return isValidIntersection(pair, new PartialRangeIntersection());
+        return isValidIntersection(pair, (range1, range2, intersection) -> 0 < intersection.length());
     }
 
     private boolean isValidIntersection(String pair, RangeIntersectionValidator validator) {
