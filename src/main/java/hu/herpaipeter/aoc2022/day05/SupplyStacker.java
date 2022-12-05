@@ -6,13 +6,23 @@ import java.util.stream.Collectors;
 
 public class SupplyStacker {
     public String rearrange(List<Stack<String>> stacks, List<Move> moves) {
-        moves.forEach(m -> rearrangeOneByOne(stacks, m));
-        return stacksToString(stacks);
+        List<Stack<String>> copy = getCopyOfStacks(stacks);
+        moves.forEach(m -> rearrangeOneByOne(copy, m));
+        return stacksToString(copy);
     }
 
     public String rearrangeMultiple(List<Stack<String>> stacks, List<Move> moves) {
-        moves.forEach(m -> rearrangeInBatch(stacks, m));
-        return stacksToString(stacks);
+        List<Stack<String>> copy = getCopyOfStacks(stacks);
+        moves.forEach(m -> rearrangeInBatch(copy, m));
+        return stacksToString(copy);
+    }
+
+    private List<Stack<String>> getCopyOfStacks(List<Stack<String>> stacks) {
+        return stacks.stream().map(s -> {
+            Stack<String> stack = new Stack<>();
+            stack.addAll(s);
+            return stack;
+        }).toList();
     }
 
     private String stacksToString(List<Stack<String>> stacks) {
