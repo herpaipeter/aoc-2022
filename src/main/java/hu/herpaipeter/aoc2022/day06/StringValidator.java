@@ -1,13 +1,13 @@
 package hu.herpaipeter.aoc2022.day06;
 
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 public class StringValidator {
     public static boolean containsUniqueChars(String str) {
-        boolean unique = true;
-        for (int i = 0; i < str.length(); i++) {
-            for (int j = i + 1; j < str.length(); j++) {
-                unique &= (str.charAt(i) != str.charAt(j));
-            }
-        }
-        return unique;
+        Map<Integer, Long> charCount = str.chars().boxed()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        return charCount.values().stream().allMatch(l -> l <= 1);
     }
 }
