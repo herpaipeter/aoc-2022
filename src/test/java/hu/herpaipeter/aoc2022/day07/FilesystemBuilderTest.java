@@ -13,16 +13,14 @@ public class FilesystemBuilderTest {
 
     @Test
     void empty_command_list_should_return_root_directory() {
-        FilesystemBuilder builder = new FilesystemBuilder();
-        DeviceFilesystem filesystem = builder.build(List.of());
+        DeviceFilesystem filesystem = FilesystemBuilder.build(List.of());
         assertEquals(List.of(new Directory("/", null)), filesystem.getDirectories());
         assertNull(filesystem.getActiveDirectory());
     }
 
     @Test
     void cd_root_should_change_active_directory() {
-        FilesystemBuilder builder = new FilesystemBuilder();
-        DeviceFilesystem filesystem = builder.build(List.of("$ cd /"));
+        DeviceFilesystem filesystem = FilesystemBuilder.build(List.of("$ cd /"));
         Directory root = new Directory("/", null);
         assertIterableEquals(List.of(root), filesystem.getDirectories());
         assertEquals(root, filesystem.getActiveDirectory());
@@ -30,8 +28,7 @@ public class FilesystemBuilderTest {
 
     @Test
     void ls_command_should_not_change_the_filesystem() {
-        FilesystemBuilder builder = new FilesystemBuilder();
-        DeviceFilesystem filesystem = builder.build(List.of("$ cd /", "$ ls"));
+        DeviceFilesystem filesystem = FilesystemBuilder.build(List.of("$ cd /", "$ ls"));
         Directory root = new Directory("/", null);
         assertIterableEquals(List.of(root), filesystem.getDirectories());
         assertEquals(root, filesystem.getActiveDirectory());
@@ -39,8 +36,7 @@ public class FilesystemBuilderTest {
 
     @Test
     void dir_list_item_should_create_new_subdirectory_in_the_active_directory() {
-        FilesystemBuilder builder = new FilesystemBuilder();
-        DeviceFilesystem filesystem = builder.build(List.of("$ cd /", "$ ls", "dir a"));
+        DeviceFilesystem filesystem = FilesystemBuilder.build(List.of("$ cd /", "$ ls", "dir a"));
         Directory root = new Directory("/", null);
         Directory dirA = new Directory("a", root);
         root.add(dirA);
@@ -50,8 +46,7 @@ public class FilesystemBuilderTest {
 
     @Test
     void number_and_filename_list_item_should_create_new_subdirectory_in_the_active_directory() {
-        FilesystemBuilder builder = new FilesystemBuilder();
-        DeviceFilesystem filesystem = builder.build(List.of("$ cd /", "$ ls", "10 b.txt"));
+        DeviceFilesystem filesystem = FilesystemBuilder.build(List.of("$ cd /", "$ ls", "10 b.txt"));
         Directory root = new Directory("/", null);
         ElfFile file = new ElfFile("b.txt", 10);
         root.add(file);
@@ -62,8 +57,7 @@ public class FilesystemBuilderTest {
 
     @Test
     void cd_directory_item_should_change_active_directory() {
-        FilesystemBuilder builder = new FilesystemBuilder();
-        DeviceFilesystem filesystem = builder.build(List.of("$ cd /", "$ ls", "dir a", "$ cd a"));
+        DeviceFilesystem filesystem = FilesystemBuilder.build(List.of("$ cd /", "$ ls", "dir a", "$ cd a"));
         Directory root = new Directory("/", null);
         Directory dirA = new Directory("a", root);
         root.add(dirA);
@@ -73,8 +67,7 @@ public class FilesystemBuilderTest {
 
     @Test
     void cd_directory_item_from_multi_subs_should_change_active_directory_to_the_correct_sub() {
-        FilesystemBuilder builder = new FilesystemBuilder();
-        DeviceFilesystem filesystem = builder.build(List.of("$ cd /", "$ ls", "dir a", "dir b", "$ cd b"));
+        DeviceFilesystem filesystem = FilesystemBuilder.build(List.of("$ cd /", "$ ls", "dir a", "dir b", "$ cd b"));
         Directory root = new Directory("/", null);
         Directory dirA = new Directory("a", root);
         Directory dirB = new Directory("b", root);
@@ -86,8 +79,7 @@ public class FilesystemBuilderTest {
 
     @Test
     void cd_two_dots_item_should_change_active_directory_to_parent() {
-        FilesystemBuilder builder = new FilesystemBuilder();
-        DeviceFilesystem filesystem = builder.build(List.of("$ cd /", "$ ls", "dir a", "$ cd a", "$ cd .."));
+        DeviceFilesystem filesystem = FilesystemBuilder.build(List.of("$ cd /", "$ ls", "dir a", "$ cd a", "$ cd .."));
         Directory root = new Directory("/", null);
         Directory dirA = new Directory("a", root);
         root.add(dirA);
@@ -97,8 +89,7 @@ public class FilesystemBuilderTest {
 
     @Test
     void multi_subdirectory_and_file_test() {
-        FilesystemBuilder builder = new FilesystemBuilder();
-        DeviceFilesystem filesystem = builder.build(
+        DeviceFilesystem filesystem = FilesystemBuilder.build(
                 List.of("$ cd /",
                 "$ ls",
                 "dir a",

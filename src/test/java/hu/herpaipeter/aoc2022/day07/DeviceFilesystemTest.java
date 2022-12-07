@@ -78,8 +78,7 @@ public class DeviceFilesystemTest {
 
     @Test
     void complex_filesystem_directory_sizes_test() {
-        FilesystemBuilder builder = new FilesystemBuilder();
-        DeviceFilesystem filesystem = builder.build(
+        DeviceFilesystem filesystem = FilesystemBuilder.build(
                 List.of("$ cd /",
                         "$ ls",
                         "dir a",
@@ -129,18 +128,16 @@ public class DeviceFilesystemTest {
 
     @Test
     void file_result_part_1() {
-        FilesystemBuilder builder = new FilesystemBuilder();
         List<String> inputTxt = FileReader.readAoCInputFileLines("day07");
-        DeviceFilesystem filesystem = builder.build(inputTxt);
+        DeviceFilesystem filesystem = FilesystemBuilder.build(inputTxt);
         long sum = filesystem.getDirectories().stream().mapToLong(Directory::size).filter(s -> s <= 100000).sum();
         System.out.println("part1: " + sum);
     }
 
     @Test
     void file_result_part_2() {
-        FilesystemBuilder builder = new FilesystemBuilder();
         List<String> inputTxt = FileReader.readAoCInputFileLines("day07");
-        DeviceFilesystem filesystem = builder.build(inputTxt);
+        DeviceFilesystem filesystem = FilesystemBuilder.build(inputTxt);
         long usedSpace = filesystem.getRoot().size();
         long freeSpace = 70000000 - usedSpace;
         OptionalLong min = filesystem.getDirectories().stream().mapToLong(Directory::size).filter(s -> 30000000 <= freeSpace + s).min();
