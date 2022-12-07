@@ -13,12 +13,12 @@ public class DeviceFilesystem {
         root = new Directory("/", null);
     }
 
-    public Directory getRoot() {
-        return root;
-    }
-
     public DeviceFilesystem(Directory root) {
         this.root = root;
+    }
+
+    public Directory getRoot() {
+        return root;
     }
 
     public List<Directory> getDirectories() {
@@ -36,15 +36,16 @@ public class DeviceFilesystem {
         activeDirectory.add(new Directory(name, activeDirectory));
     }
 
-    public Directory getActiveDirectory() {
-        return activeDirectory;
+    public void createFile(ElfFile elfFile) {
+        activeDirectory.add(elfFile);
     }
 
     public void changeDirectory(Directory directory) {
         activeDirectory = directory;
     }
 
-    public void createFile(ElfFile elfFile) {
-        activeDirectory.add(elfFile);
+    public Directory getActiveDirectory() {
+        return activeDirectory;
     }
+
 }

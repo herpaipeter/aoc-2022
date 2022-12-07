@@ -25,8 +25,28 @@ public class Directory {
         this.files = files;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Directory getParent() {
+        return parent;
+    }
+
     public List<Directory> getDirectories() {
         return directories;
+    }
+
+    public List<ElfFile> getFiles() {
+        return files;
+    }
+
+    public void add(Directory directory) {
+        directories.add(directory);
+    }
+
+    public void add(ElfFile file) {
+        files.add(file);
     }
 
     public long size() {
@@ -38,6 +58,7 @@ public class Directory {
     public String toString() {
         return "Directory{" +
                 "name='" + name + '\'' +
+                ", parent.name=" + parent.name +
                 ", files=" + files +
                 ", directories=" + directories +
                 '}';
@@ -51,6 +72,7 @@ public class Directory {
         Directory directory = (Directory) o;
 
         if (!name.equals(directory.name)) return false;
+        if (parent != null ? !parent.name.equals(directory.parent.name) : directory.parent != null) return false;
         if (!files.equals(directory.files)) return false;
         return directories.equals(directory.directories);
     }
@@ -58,28 +80,9 @@ public class Directory {
     @Override
     public int hashCode() {
         int result = name.hashCode();
+        result = 31 * result + (parent != null ? parent.name.hashCode() : 0);
         result = 31 * result + files.hashCode();
         result = 31 * result + directories.hashCode();
         return result;
-    }
-
-    public void add(Directory directory) {
-        directories.add(directory);
-    }
-
-    public void add(ElfFile file) {
-        files.add(file);
-    }
-
-    public List<ElfFile> getFiles() {
-        return files;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Directory getParent() {
-        return parent;
     }
 }
