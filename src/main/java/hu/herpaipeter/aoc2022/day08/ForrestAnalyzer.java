@@ -1,68 +1,112 @@
 package hu.herpaipeter.aoc2022.day08;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ForrestAnalyzer {
-    public int getVisibleTreesCount(List<String> map) {
-        if (map.isEmpty())
-            return 0;
-        int visible = square(map.size()) - (2 < map.size() ? square(map.size() - 2) : 0);
-        for (int i = 1; i < map.size() - 1; i++) {
-            for (int j = 1; j < map.get(i).length() - 1; j++) {
-                boolean higherAbove = true;
-                boolean higherBelow = true;
-                boolean higherLeft = true;
-                boolean higherRight = true;
-
-                for (int z = 0; z < i; z++)
-                    higherAbove &= map.get(z).charAt(j) < map.get(i).charAt(j);
-                for (int z = i + 1; z < map.size(); z++)
-                    higherBelow &= map.get(z).charAt(j) < map.get(i).charAt(j);
-                for (int z = 0; z < j; z++)
-                    higherLeft &= map.get(i).charAt(z) < map.get(i).charAt(j);
-                for (int z = j + 1; z < map.get(i).length(); z++)
-                    higherRight &= map.get(i).charAt(z) < map.get(i).charAt(j);
-
-                if (higherAbove || higherBelow || higherLeft || higherRight)
-                    visible++;
-            }
-        }
-        return visible;
+    public static long getVisibleTreesCount(List<String> map) {
+        return getEdgesTrees(map) + getInsideVisibleTrees(map);
     }
 
-    public static int square(int num) {
-        return (int)Math.pow(num, 2);
+    private static int getEdgesTrees(List<String> map) {
+        return 1 < map.size() ? 2 * map.size() + 2 * map.get(0).length() - 4 : map.size();
     }
 
-    public int getScenicScore(List<String> map, int row, int col) {
-        if (2 < map.size() && row != 0 && row != map.size() - 1 && col != 0 && col != map.get(0).length() - 1) {
-            char tree = map.get(row).charAt(col);
-            int up = 0;
-            int down = 0;
-            int left = 0;
-            int right = 0;
-            for (int i = row - 1; 0 <= i; i--) {
-                up++;
-                if (tree <= map.get(i).charAt(col))
-                    break;
-            }
-            for (int i = row + 1; i < map.size(); i++) {
-                down++;
-                if (tree <= map.get(i).charAt(col))
-                    break;
-            }
-            for (int i = col - 1; 0 <= i; i--) {
-                left++;
-                if (tree <= map.get(row).charAt(i))
-                    break;
-            }
-            for (int i = col + 1; i < map.get(0).length(); i++) {
-                right++;
-                if (tree <= map.get(row).charAt(i))
-                    break;
-            }
-            return up * down * left * right;
+    private static long getInsideVisibleTrees(List<String> map) {
+        return IntStream.range(1, map.size() - 1).mapToLong(row -> getRowVisibleTrees(map, row)).sum();
+    }
+
+    private static long getRowVisibleTrees(List<String> map, int row) {
+        return IntStream.range(1, map.get(row).length() - 1).filter(col -> isTreeVisible(map, row, col)).count();
+    }
+
+    private static boolean isTreeVisible(List<String> map, int row, int col) {
+        char treeHeight = map.get(row).charAt(col);
+        return isHigherFromAnyDirection(map, row, col, treeHeight);
+    }
+
+    private static boolean isHigherFromAnyDirection(List<String> map, int row, int col, char treeHeight) {
+        return isHigherAbove(map, row, col, treeHeight) ||
+                isHigherBelow(map, row, col, treeHeight) ||
+                isHigherLeft(map, row, col, treeHeight) ||
+                isHigherRight(map, row, col, treeHeight);
+    }
+
+    private static boolean isHigherAbove(List<String> map, int row, int col, char treeHeight) {
+        return IntStream.range(0, row).allMatch(p -> map.get(p).charAt(col) < treeHeight);
+    }
+
+    private static boolean isHigherBelow(List<String> map, int row, int col, char treeHeight) {
+        return IntStream.range(row + 1, map.size()).allMatch(p -> map.get(p).charAt(col) < treeHeight);
+    }
+
+    private static boolean isHigherLeft(List<String> map, int row, int col, char treeHeight) {
+        return IntStream.range(0, col).allMatch(p -> map.get(row).charAt(p) < treeHeight);
+    }
+
+    private static boolean isHigherRight(List<String> map, int row, int col, char treeHeight) {
+        return IntStream.range(col + 1, map.get(row).length()).allMatch(p -> map.get(row).charAt(p) < treeHeight);
+    }
+
+    public static int getScenicScore(List<String> map, int row, int col) {
+        if (2 < map.size() && isInsideTree(map, row, col)) {
+            return getViewDistanceUp(map, row, col) *
+                    getViewDistanceDown(map, row, col) *
+                    getViewDistanceLeft(map, row, col) *
+                    getViewDistanceRight(map, row, col);
         }
         return 0;
+    }
+
+    private static boolean isInsideTree(List<String> map, int row, int col) {
+        return row != 0 && row != map.size() - 1 && col != 0 && col != map.get(0).length() - 1;
+    }
+
+    private static int getViewDistanceUp(List<String> map, int row, int col) {
+        char tree = map.get(row).charAt(col);
+        int up = 0;
+        for (int i = row - 1; 0 <= i; i--) {
+            up++;
+            if (tree <= map.get(i).charAt(col))
+                break;
+        }
+        return up;
+    }
+
+    private static int getViewDistanceDown(List<String> map, int row, int col) {
+        char tree = map.get(row).charAt(col);
+        return findForwardViewDistance(map, row, col, tree);
+    }
+
+    private static int findForwardViewDistance(List<String> map, int row, int col, char tree) {
+        int down = 0;
+        for (int i = row + 1; i < map.size(); i++) {
+            down++;
+            if (tree <= map.get(i).charAt(col))
+                break;
+        }
+        return down;
+    }
+
+    private static int getViewDistanceLeft(List<String> map, int row, int col) {
+        char tree = map.get(row).charAt(col);
+        int left = 0;
+        for (int i = col - 1; 0 <= i; i--) {
+            left++;
+            if (tree <= map.get(row).charAt(i))
+                break;
+        }
+        return left;
+    }
+
+    private static int getViewDistanceRight(List<String> map, int row, int col) {
+        char tree = map.get(row).charAt(col);
+        int right = 0;
+        for (int i = col + 1; i < map.get(0).length(); i++) {
+            right++;
+            if (tree <= map.get(row).charAt(i))
+                break;
+        }
+        return right;
     }
 }
