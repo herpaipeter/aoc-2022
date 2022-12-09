@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -54,14 +53,7 @@ public class RopeMovementPart2Test {
     @Test
     void large_test_example() {
         RopeMovement ropeMovement = new RopeMovement(10);
-        ropeMovement.moveByCommands(List.of("R 5",
-                "U 8",
-                "L 8",
-                "D 3",
-                "R 17",
-                "D 10",
-                "L 25",
-                "U 20"));
+        ropeMovement.moveByCommands(List.of("R 5", "U 8", "L 8", "D 3", "R 17", "D 10", "L 25", "U 20"));
         assertEquals(36, new HashSet<>(ropeMovement.getTailRoute()).size());
     }
 
