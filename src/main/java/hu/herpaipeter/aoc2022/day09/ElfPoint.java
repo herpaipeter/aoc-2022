@@ -38,7 +38,7 @@ public record ElfPoint(int row, int col) {
         return new ElfPoint(row + point.row, col + point.col);
     }
 
-    public int distance(ElfPoint point) {
+    public int distanceTo(ElfPoint point) {
         return Math.max(Math.abs(point.row - row), Math.abs(point.col - col));
     }
 }
