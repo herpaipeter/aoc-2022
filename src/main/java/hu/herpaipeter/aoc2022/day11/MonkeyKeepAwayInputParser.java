@@ -9,20 +9,24 @@ public class MonkeyKeepAwayInputParser {
     public List<Monkey> getMonkeys(List<String> lines) {
         List<Monkey> monkeys = new ArrayList<>();
         for (int i = 0; i < lines.size(); i += 7) {
-            monkeys.add(parseMonkey(lines, i, 3));
+            monkeys.add(parseMonkey(lines, i, true));
         }
         return monkeys;
     }
 
-    public List<Monkey> getMonkeys(List<String> lines, int worryDivider) {
+    public List<Monkey> getMonkeys(List<String> lines, boolean isWorryDivider) {
         List<Monkey> monkeys = new ArrayList<>();
         for (int i = 0; i < lines.size(); i += 7) {
-            monkeys.add(parseMonkey(lines, i, worryDivider));
+            monkeys.add(parseMonkey(lines, i, isWorryDivider));
+        }
+        long leastCommonMultiple = monkeys.stream().mapToInt(m -> m.getMonkeyThrowTest() != null ? m.getMonkeyThrowTest().divisor() : 0).reduce((left, right) -> left * right).orElse(0);
+        for (Monkey monkey : monkeys) {
+            monkey.setLeastCommonMultipleDivider(leastCommonMultiple);
         }
         return monkeys;
     }
 
-    private Monkey parseMonkey(List<String> lines, int startIdx, int worryDivider) {
+    private Monkey parseMonkey(List<String> lines, int startIdx, boolean isWorryDivider) {
         List<Long> items = null;
         MonkeyOperation operation = null;
         MonkeyThrowTest monkeyThrowTest = null;
@@ -62,6 +66,6 @@ public class MonkeyKeepAwayInputParser {
                 }
             }
         }
-        return new Monkey(items, operation, monkeyThrowTest, worryDivider);
+        return new Monkey(items, operation, monkeyThrowTest, isWorryDivider);
     }
 }

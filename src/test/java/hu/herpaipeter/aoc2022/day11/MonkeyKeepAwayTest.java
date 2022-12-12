@@ -127,28 +127,28 @@ public class MonkeyKeepAwayTest {
         System.out.println("part1: " + sortedInspections.get(0) * sortedInspections.get(1));
     }
 
-//    @Test
-//    void multi_monkeys_run_turn_10000_times_no_worry_divider() {
-//        MonkeyKeepAwayInputParser parser = new MonkeyKeepAwayInputParser();
-//        List<String> inputTxt = FileReader.readAoCInputFileLines("day11", "example_4_monkeys.txt");
-//        List<Monkey> monkeys = parser.getMonkeys(inputTxt, 1);
-//        MonkeyKeepAway monkeyKeepAway = new MonkeyKeepAway(monkeys);
-//        monkeyKeepAway.runTurns(10000);
-//        assertEquals(52166, monkeyKeepAway.getInspectedItemsBy(0));
-//        assertEquals(47830, monkeyKeepAway.getInspectedItemsBy(1));
-//        assertEquals(1938, monkeyKeepAway.getInspectedItemsBy(2));
-//        assertEquals(52013, monkeyKeepAway.getInspectedItemsBy(3));
-//    }
+    @Test
+    void multi_monkeys_run_turn_10000_times_no_worry_divider() {
+        MonkeyKeepAwayInputParser parser = new MonkeyKeepAwayInputParser();
+        List<String> inputTxt = FileReader.readAoCInputFileLines("day11", "example_4_monkeys.txt");
+        List<Monkey> monkeys = parser.getMonkeys(inputTxt, false);
+        MonkeyKeepAway monkeyKeepAway = new MonkeyKeepAway(monkeys);
+        monkeyKeepAway.runTurns(10000);
+        assertEquals(52166, monkeyKeepAway.getInspectedItemsBy(0));
+        assertEquals(47830, monkeyKeepAway.getInspectedItemsBy(1));
+        assertEquals(1938, monkeyKeepAway.getInspectedItemsBy(2));
+        assertEquals(52013, monkeyKeepAway.getInspectedItemsBy(3));
+    }
 
     @Test
     void file_result_part_2() {
         MonkeyKeepAwayInputParser parser = new MonkeyKeepAwayInputParser();
         List<String> inputTxt = FileReader.readAoCInputFileLines("day11");
-        List<Monkey> monkeys = parser.getMonkeys(inputTxt, 1);
+        List<Monkey> monkeys = parser.getMonkeys(inputTxt, false);
         MonkeyKeepAway monkeyKeepAway = new MonkeyKeepAway(monkeys);
         monkeyKeepAway.runTurns(10000);
         List<Integer> sortedInspections = IntStream.range(0, monkeyKeepAway.getMonkeysCount()).map(monkeyKeepAway::getInspectedItemsBy).boxed().sorted(Comparator.reverseOrder()).toList();
-        System.out.println("part1: " + sortedInspections.get(0) * sortedInspections.get(1));
+        System.out.println("part2: " + (long)sortedInspections.get(0) * (long)sortedInspections.get(1));
     }
 
     private class MonkeyKeepAwaySpy extends MonkeyKeepAway {
