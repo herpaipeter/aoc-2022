@@ -8,9 +8,15 @@ import java.util.List;
 public class FileReader {
 
     private static final String AOC_2022_INPUT_FILE_DEFAULT_PATH = "src\\test\\java\\hu\\herpaipeter\\aoc2022\\%s\\input.txt";
+    private static final String AOC_2022_FILE_PATH = "src\\test\\java\\hu\\herpaipeter\\aoc2022\\%s\\%s";
+
 
     public static List<String> readAoCInputFileLines(String dayName) {
         return readStringLines(String.format(AOC_2022_INPUT_FILE_DEFAULT_PATH, dayName));
+    }
+
+    public static List<String> readAoCInputFileLines(String dayName, String filename) {
+        return readStringLines(String.format(AOC_2022_FILE_PATH, dayName, filename));
     }
 
     public static List<String> readStringLines(String fileName) {
