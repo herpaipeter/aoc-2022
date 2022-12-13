@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -115,36 +114,36 @@ public class DistressSignalTest {
     @Test
     void test_example() {
         List<String> inputTxt = FileReader.readAoCInputFileLines("day13", "example.txt");
-        ElfSignalList left = new ElfSignalParser().parseElfSignal(inputTxt.get(0));
-        ElfSignalList right = new ElfSignalParser().parseElfSignal(inputTxt.get(1));
+        ElfSignalList left = new ElfSignalParser().parseElfSignalList(inputTxt.get(0));
+        ElfSignalList right = new ElfSignalParser().parseElfSignalList(inputTxt.get(1));
         assertEquals(-1, left.compare(right));
 
-        left = new ElfSignalParser().parseElfSignal(inputTxt.get(3));
-        right = new ElfSignalParser().parseElfSignal(inputTxt.get(4));
+        left = new ElfSignalParser().parseElfSignalList(inputTxt.get(3));
+        right = new ElfSignalParser().parseElfSignalList(inputTxt.get(4));
         assertEquals(-1, left.compare(right));
 
-        left = new ElfSignalParser().parseElfSignal(inputTxt.get(6));
-        right = new ElfSignalParser().parseElfSignal(inputTxt.get(7));
+        left = new ElfSignalParser().parseElfSignalList(inputTxt.get(6));
+        right = new ElfSignalParser().parseElfSignalList(inputTxt.get(7));
         assertEquals(1, left.compare(right));
 
-        left = new ElfSignalParser().parseElfSignal(inputTxt.get(9));
-        right = new ElfSignalParser().parseElfSignal(inputTxt.get(10));
+        left = new ElfSignalParser().parseElfSignalList(inputTxt.get(9));
+        right = new ElfSignalParser().parseElfSignalList(inputTxt.get(10));
         assertEquals(-1, left.compare(right));
 
-        left = new ElfSignalParser().parseElfSignal(inputTxt.get(12));
-        right = new ElfSignalParser().parseElfSignal(inputTxt.get(13));
+        left = new ElfSignalParser().parseElfSignalList(inputTxt.get(12));
+        right = new ElfSignalParser().parseElfSignalList(inputTxt.get(13));
         assertEquals(1, left.compare(right));
 
-        left = new ElfSignalParser().parseElfSignal(inputTxt.get(15));
-        right = new ElfSignalParser().parseElfSignal(inputTxt.get(16));
+        left = new ElfSignalParser().parseElfSignalList(inputTxt.get(15));
+        right = new ElfSignalParser().parseElfSignalList(inputTxt.get(16));
         assertEquals(-1, left.compare(right));
 
-        left = new ElfSignalParser().parseElfSignal(inputTxt.get(18));
-        right = new ElfSignalParser().parseElfSignal(inputTxt.get(19));
+        left = new ElfSignalParser().parseElfSignalList(inputTxt.get(18));
+        right = new ElfSignalParser().parseElfSignalList(inputTxt.get(19));
         assertEquals(1, left.compare(right));
 
-        left = new ElfSignalParser().parseElfSignal(inputTxt.get(21));
-        right = new ElfSignalParser().parseElfSignal(inputTxt.get(22));
+        left = new ElfSignalParser().parseElfSignalList(inputTxt.get(21));
+        right = new ElfSignalParser().parseElfSignalList(inputTxt.get(22));
         assertEquals(1, left.compare(right));
     }
 
@@ -154,8 +153,8 @@ public class DistressSignalTest {
         ElfSignalParser parser = new ElfSignalParser();
         List<Integer> rightPairs = new ArrayList<>();
         for (int i = 0; i < inputTxt.size(); i += 3) {
-            ElfSignalList left = parser.parseElfSignal(inputTxt.get(i));
-            ElfSignalList right = parser.parseElfSignal(inputTxt.get(i + 1));
+            ElfSignalList left = parser.parseElfSignalList(inputTxt.get(i));
+            ElfSignalList right = parser.parseElfSignalList(inputTxt.get(i + 1));
             if (left.compare(right) == -1)
                 rightPairs.add(i/3 + 1);
         }
@@ -168,8 +167,8 @@ public class DistressSignalTest {
         ElfSignalParser parser = new ElfSignalParser();
         List<Integer> rightPairs = new ArrayList<>();
         for (int i = 0; i < inputTxt.size(); i += 3) {
-            ElfSignalList left = parser.parseElfSignal(inputTxt.get(i));
-            ElfSignalList right = parser.parseElfSignal(inputTxt.get(i + 1));
+            ElfSignalList left = parser.parseElfSignalList(inputTxt.get(i));
+            ElfSignalList right = parser.parseElfSignalList(inputTxt.get(i + 1));
             if (left.compare(right) == -1)
                 rightPairs.add(i/3 + 1);
         }
@@ -181,9 +180,9 @@ public class DistressSignalTest {
         List<String> inputTxt = FileReader.readAoCInputFileLines("day13", "example.txt");
         ElfSignalParser parser = new ElfSignalParser();
         inputTxt.addAll(List.of("[[2]]", "[[6]]"));
-        List<ElfSignalList> elfSignalLists = inputTxt.stream().filter(s -> !s.isEmpty()).map(parser::parseElfSignal).sorted(ElfSignalList::compare).toList();
-        int index2 = elfSignalLists.indexOf(parser.parseElfSignal("[[2]]"));
-        int index6 = elfSignalLists.indexOf(parser.parseElfSignal("[[6]]"));
+        List<ElfSignalList> elfSignalLists = inputTxt.stream().filter(s -> !s.isEmpty()).map(parser::parseElfSignalList).sorted(ElfSignalList::compare).toList();
+        int index2 = elfSignalLists.indexOf(parser.parseElfSignalList("[[2]]"));
+        int index6 = elfSignalLists.indexOf(parser.parseElfSignalList("[[6]]"));
         System.out.println("example part2: " + (index2 + 1) * (index6 + 1));
     }
 
@@ -192,9 +191,9 @@ public class DistressSignalTest {
         List<String> inputTxt = FileReader.readAoCInputFileLines("day13");
         ElfSignalParser parser = new ElfSignalParser();
         inputTxt.addAll(List.of("[[2]]", "[[6]]"));
-        List<ElfSignalList> elfSignalLists = inputTxt.stream().filter(s -> !s.isEmpty()).map(parser::parseElfSignal).sorted(ElfSignalList::compare).toList();
-        int index2 = elfSignalLists.indexOf(parser.parseElfSignal("[[2]]"));
-        int index6 = elfSignalLists.indexOf(parser.parseElfSignal("[[6]]"));
+        List<ElfSignalList> elfSignalLists = inputTxt.stream().filter(s -> !s.isEmpty()).map(parser::parseElfSignalList).sorted(ElfSignalList::compare).toList();
+        int index2 = elfSignalLists.indexOf(parser.parseElfSignalList("[[2]]"));
+        int index6 = elfSignalLists.indexOf(parser.parseElfSignalList("[[6]]"));
         System.out.println("part2: " + (index2 + 1) * (index6 + 1));
     }
 }
