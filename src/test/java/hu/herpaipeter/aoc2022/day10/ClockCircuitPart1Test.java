@@ -12,7 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class ClockCircuitTest {
+public class ClockCircuitPart1Test {
 
     @Test
     void empty_instruction_list_should_change_nothing() {
