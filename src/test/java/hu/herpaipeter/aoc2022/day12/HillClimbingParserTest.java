@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class HillClimbingParserTest {
@@ -15,8 +16,8 @@ public class HillClimbingParserTest {
         List<String> inputTxt = FileReader.readAoCInputFileLines("day12", "example.txt");
         AStarAlgorithm starAlgorithm = new AStarAlgorithm();
         Point start = starAlgorithm.findPosition(inputTxt, 'S');
-        List<List<Integer>> distances = new AStarAlgorithm().getDistances(inputTxt, start);
         Point endPoint = starAlgorithm.findPosition(inputTxt,'E');
+        List<List<Integer>> distances = new AStarAlgorithm().getDistances(inputTxt, start, endPoint);
         System.out.println("example: " + distances.get(endPoint.row()).get(endPoint.col()));
     }
 
@@ -25,8 +26,8 @@ public class HillClimbingParserTest {
         List<String> inputTxt = FileReader.readAoCInputFileLines("day12");
         AStarAlgorithm starAlgorithm = new AStarAlgorithm();
         Point start = starAlgorithm.findPosition(inputTxt, 'S');
-        List<List<Integer>> distances = new AStarAlgorithm().getDistances(inputTxt, start);
         Point endPoint = starAlgorithm.findPosition(inputTxt,'E');
+        List<List<Integer>> distances = new AStarAlgorithm().getDistances(inputTxt, start, endPoint);
         System.out.println("part1: " + distances.get(endPoint.row()).get(endPoint.col()));
     }
 
@@ -36,7 +37,8 @@ public class HillClimbingParserTest {
         AStarAlgorithm starAlgorithm = new AStarAlgorithm();
         List<Point> starts = starAlgorithm.findAllPosition(inputTxt, 'a');
         Point endPoint = starAlgorithm.findPosition(inputTxt,'E');
-        Integer result = starts.stream().map(s -> new AStarAlgorithm().getDistances(inputTxt, s)).map(d -> d.get(endPoint.row()).get(endPoint.col())).min(Integer::compareTo).get();
+        Map<Point, Integer> distancesMapReverse = new AStarAlgorithm().getDistancesMapReverse(inputTxt, endPoint);
+        Integer result = distancesMapReverse.entrySet().stream().filter(p -> starts.contains(p.getKey())).map(Map.Entry::getValue).min(Integer::compareTo).get();
         System.out.println("part2: " + result);
     }
 }
