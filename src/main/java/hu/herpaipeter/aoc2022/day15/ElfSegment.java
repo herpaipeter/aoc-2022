@@ -16,13 +16,23 @@ public record ElfSegment(Point start, Point end) {
     }
 
     public boolean contains(Point point) {
-        if (start.row() == end.row() && start.row() == point.row())
-            return start.col() <= point.col() && point.col() <= end.col() ||
-                    end.col() <= point.col() && point.col() <= start.col();
-        else if (start.col() == end.col() && start.col() == point.col())
-            return start.row() <= point.row() && point.row() <= end.row() ||
-                    end.row() <= point.row() && point.row() <= start.row();
+        if (isSameRows(point))
+            return isBetweenEndPoints(start.col(), point.col(), end.col());
+        else if (isSameCols(point))
+            return isBetweenEndPoints(start.row(), point.row(), end.row());
         return false;
+    }
+
+    private boolean isBetweenEndPoints(int start, int point, int end) {
+        return start <= point && point <= end || end <= point && point <= start;
+    }
+
+    private boolean isSameCols(Point point) {
+        return start.col() == end.col() && start.col() == point.col();
+    }
+
+    private boolean isSameRows(Point point) {
+        return start.row() == end.row() && start.row() == point.row();
     }
 
     public ElfSegment intersectHorizontal(ElfSegment segment) {
@@ -50,10 +60,6 @@ public record ElfSegment(Point start, Point end) {
             return List.of();
         else if (1 == segments.size())
             return List.of(segments.get(0));
-        else if (2 == segments.size()) {
-            List<ElfSegment> sortedSegments = segments.stream().map(ElfSegment::normalizeHorizontal).sorted(new ElfSegmentHorizontalStartComparator()).toList();
-            return sortedSegments.get(0).unionHorizontal(sortedSegments.get(1));
-        }
         else {
             List<ElfSegment> sortedSegments = segments.stream().map(ElfSegment::normalizeHorizontal).sorted(new ElfSegmentHorizontalStartComparator()).toList();
             List<ElfSegment> union = new ArrayList<>(sortedSegments.get(0).unionHorizontal(sortedSegments.get(1)));
@@ -72,30 +78,11 @@ public record ElfSegment(Point start, Point end) {
         return start.col() > end.col() ? new ElfSegment(end, start) : this;
     }
 
-    public ElfSegment normalizeVertical() {
-        return start.row() > end.row() ? new ElfSegment(end, start) : this;
-    }
-
     public static List<ElfSegment> intersectHorizontal(List<ElfSegment> segments) {
         if (2 == segments.size()) {
             ElfSegment segment = segments.get(0).intersectHorizontal(segments.get(1));
             if (!segment.equals(ElfSegment.empty())) {
                 return List.of(segment);
-            }
-        }
-        if (3 == segments.size()) {
-            List<ElfSegment> result = new ArrayList<>();
-            ElfSegment segment1 = segments.get(0).intersectHorizontal(segments.get(1));
-            ElfSegment segment2 = segments.get(0).intersectHorizontal(segments.get(2));
-            ElfSegment segment3 = segments.get(1).intersectHorizontal(segments.get(2));
-            if (!segment1.equals(ElfSegment.empty())) {
-                result.add(segment1);
-            }
-            if (!segment2.equals(ElfSegment.empty())) {
-                result.add(segment1);
-            }
-            if (!segment3.equals(ElfSegment.empty())) {
-                result.add(segment1);
             }
         }
         return List.of();

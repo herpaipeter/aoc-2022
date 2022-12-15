@@ -7,8 +7,6 @@ import java.util.List;
 public class SensorBeaconParser {
 
     public List<Sensor> parseSensors(List<String> input) {
-        if (input.isEmpty())
-            return List.of();
         return input.stream().map(this::getSensor).toList();
     }
 

@@ -64,7 +64,7 @@ public class BeaconExclusionTest {
     void part_1() {
         List<String> inputTxt = FileReader.readAoCInputFileLines("day15");
         List<Sensor> sensors = new SensorBeaconParser().parseSensors(inputTxt);
-        System.out.println("part 1: " + new BeaconExclusion().getNoOfBeaconFreePointsInRow(sensors,2000000));
+        System.out.println("day 15 part 1: " + new BeaconExclusion().getNoOfBeaconFreePointsInRow(sensors,2000000));
     }
 
     @Test
@@ -72,7 +72,6 @@ public class BeaconExclusionTest {
         List<String> inputTxt = FileReader.readAoCInputFileLines("day15", "example.txt");
         List<Sensor> sensors = new SensorBeaconParser().parseSensors(inputTxt);
         Point noBeaconPosition = new BeaconExclusion().getNoBeaconPosition(sensors, 0, 20);
-        System.out.println(noBeaconPosition);
         assertEquals(new Point(11, 14), noBeaconPosition);
         assertEquals(56000011,4000000 * (long)noBeaconPosition.col() + (long)noBeaconPosition.row());
     }
@@ -82,8 +81,7 @@ public class BeaconExclusionTest {
         List<String> inputTxt = FileReader.readAoCInputFileLines("day15");
         List<Sensor> sensors = new SensorBeaconParser().parseSensors(inputTxt);
         Point noBeaconPosition = new BeaconExclusion().getNoBeaconPosition(sensors, 0, 4000000);
-        System.out.println(noBeaconPosition);
-        System.out.println("part 2: " + noBeaconPosition);
-        System.out.println("part 2: " + (4000000L * (long)noBeaconPosition.col() + (long)noBeaconPosition.row()));
+        System.out.println("day 15 part 2: " + noBeaconPosition);
+        System.out.println("day 15 part 2: " + (4000000L * (long)noBeaconPosition.col() + (long)noBeaconPosition.row()));
     }
 }

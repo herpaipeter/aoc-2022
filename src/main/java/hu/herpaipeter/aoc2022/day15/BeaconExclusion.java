@@ -2,7 +2,6 @@ package hu.herpaipeter.aoc2022.day15;
 
 import hu.herpaipeter.aoc2022.day12.Point;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,14 +20,15 @@ public class BeaconExclusion {
     }
 
     public Point getNoBeaconPosition(List<Sensor> sensors, int from, int to) {
-        List<Point> result = new ArrayList<>();
-        for (int i = from; i <= to; i++) {
-            List<ElfSegment> elfSegments = getElfSegments(sensors, i);
-            if (1 < elfSegments.size() && elfSegments.get(0).end().col() + 1 != elfSegments.get(1).start().col()) {
-                return new Point(i, elfSegments.get(0).end().col() + 1);
+        for (Sensor sensor : sensors) {
+            List<Point> outerPerimeter = sensor.getOuterPerimeter(from, to);
+            for (Point point : outerPerimeter) {
+                boolean isInside = sensors.stream().anyMatch(other -> (other != sensor && other.isInside(point)));
+                if (!isInside)
+                    return point;
             }
         }
         return new Point(0,0);
-
     }
+
 }
