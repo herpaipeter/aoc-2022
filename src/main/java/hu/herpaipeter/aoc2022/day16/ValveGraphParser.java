@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static hu.herpaipeter.aoc2022.common.ParserUtils.findAllMatch;
+import static hu.herpaipeter.aoc2022.common.ParserUtils.findMatch;
 
 public class ValveGraphParser {
 
@@ -32,15 +32,4 @@ public class ValveGraphParser {
         return tunnels;
     }
 
-    private String findMatch(String text, String s) {
-        Pattern pattern = Pattern.compile(s);
-        Matcher matcher = pattern.matcher(text);
-        return matcher.results().map(MatchResult::group).findFirst().orElse("");
-    }
-
-    private List<String> findAllMatch(String text, String s) {
-        Pattern pattern = Pattern.compile(s);
-        Matcher matcher = pattern.matcher(text);
-        return matcher.results().map(MatchResult::group).toList();
-    }
 }
