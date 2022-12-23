@@ -8,16 +8,16 @@ public class RopeMovement {
     private static final int DEFAULT_ROPE_KNOTS_SIZE = 2;
     private static final int HEAD_INDEX = 0;
 
-    private List<ElfPoint> knots = new ArrayList<>();
-    private List<ElfPoint> tailRoute = new ArrayList<>();
+    private List<Point> knots = new ArrayList<>();
+    private List<Point> tailRoute = new ArrayList<>();
 
     public RopeMovement() {
         for (int i = 0; i < DEFAULT_ROPE_KNOTS_SIZE; i++)
-            knots.add(ElfPoint.origo());
-        tailRoute.add(ElfPoint.origo());
+            knots.add(Point.origo());
+        tailRoute.add(Point.origo());
     }
 
-    public RopeMovement(ElfPoint initialHead, ElfPoint initialTail) {
+    public RopeMovement(Point initialHead, Point initialTail) {
         knots.add(initialHead);
         knots.add(initialTail);
         tailRoute.add(initialTail);
@@ -25,19 +25,19 @@ public class RopeMovement {
 
     public RopeMovement(int size) {
         for (int i = 0; i < size; i++)
-            knots.add(ElfPoint.origo());
-        tailRoute.add(ElfPoint.origo());
+            knots.add(Point.origo());
+        tailRoute.add(Point.origo());
     }
 
-    public ElfPoint getHeadPosition() {
+    public Point getHeadPosition() {
         return knots.get(HEAD_INDEX);
     }
 
-    public ElfPoint getTailPosition() {
+    public Point getTailPosition() {
         return knots.get(knots.size() - 1);
     }
 
-    public List<ElfPoint> getTailRoute() {
+    public List<Point> getTailRoute() {
         return tailRoute;
     }
 
@@ -46,25 +46,25 @@ public class RopeMovement {
             setNewKnotPositions(motion.direction().getVector());
     }
 
-    private void setNewKnotPositions(ElfPoint direction) {
+    private void setNewKnotPositions(Point direction) {
         knots.set(HEAD_INDEX, knots.get(HEAD_INDEX).add(direction));
         for (int k = 0; k < knots.size() - 1; k++) {
             if (isKnotsNotTouching(k, k+1)) {
-                ElfPoint newTailPoint = knots.get(k+1).add(getMotionDirection(knots.get(k), knots.get(k+1)));
+                Point newTailPoint = knots.get(k+1).add(getMotionDirection(knots.get(k), knots.get(k+1)));
                 setNewKnotPoint(k+1, newTailPoint);
             }
         }
     }
 
-    private ElfPoint getMotionDirection(ElfPoint point1, ElfPoint point2) {
-        return new ElfPoint((int) Math.signum(point1.row() - point2.row()), (int) Math.signum(point1.col() - point2.col()));
+    private Point getMotionDirection(Point point1, Point point2) {
+        return new Point((int) Math.signum(point1.row() - point2.row()), (int) Math.signum(point1.col() - point2.col()));
     }
 
     private boolean isKnotsNotTouching(int knot1Ind, int knot2Ind) {
         return 1 < knots.get(knot1Ind).distanceTo(knots.get(knot2Ind));
     }
 
-    private void setNewKnotPoint(int knotIndex, ElfPoint newPoint) {
+    private void setNewKnotPoint(int knotIndex, Point newPoint) {
         if (!knots.get(knotIndex).equals(newPoint)) {
             knots.set(knotIndex, newPoint);
             if (knotIndex == knots.size() - 1)
@@ -90,7 +90,7 @@ public class RopeMovement {
         return motion;
     }
 
-    public ElfPoint getKnotPosition(int knotIndex) {
+    public Point getKnotPosition(int knotIndex) {
         return knots.get(knotIndex);
     }
 }

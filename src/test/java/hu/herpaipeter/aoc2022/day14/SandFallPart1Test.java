@@ -1,6 +1,6 @@
 package hu.herpaipeter.aoc2022.day14;
 
-import hu.herpaipeter.aoc2022.day12.Point;
+import hu.herpaipeter.aoc2022.day09.Point;
 import hu.herpaipeter.common.FileReader;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -68,7 +68,7 @@ public class SandFallPart1Test {
     @Test
     void file_input_part_1() {
         List<String> inputTxt = FileReader.readAoCInputFileLines("day14");
-        List<List<Point>> lines = new SandFallParser().getLines(inputTxt);
+        List<List<Point>> lines = SandFallParser.getLines(inputTxt);
         SandFall sandFall = new SandFall(lines);
         sandFall.fallSandsUntilNoMore();
         System.out.println("part1: " + sandFall.getSandPositions().size());
@@ -92,7 +92,7 @@ public class SandFallPart1Test {
     @Test
     void file_input_part_2() {
         List<String> inputTxt = FileReader.readAoCInputFileLines("day14");
-        List<List<Point>> lines = new SandFallParser().getLines(inputTxt);
+        List<List<Point>> lines = SandFallParser.getLines(inputTxt);
         SandFall sandFall = new SandFall(lines, true);
         sandFall.fallSandsUntilNoMore();
         System.out.println("part2: " + sandFall.getSandPositions().size());

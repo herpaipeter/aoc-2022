@@ -1,6 +1,6 @@
 package hu.herpaipeter.aoc2022.day15;
 
-import hu.herpaipeter.aoc2022.day12.Point;
+import hu.herpaipeter.aoc2022.day09.Point;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;

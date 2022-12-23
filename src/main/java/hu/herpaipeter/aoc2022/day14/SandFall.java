@@ -1,6 +1,6 @@
 package hu.herpaipeter.aoc2022.day14;
 
-import hu.herpaipeter.aoc2022.day12.Point;
+import hu.herpaipeter.aoc2022.day09.Point;
 
 import java.util.*;
 import java.util.stream.Collectors;

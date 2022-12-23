@@ -1,18 +1,30 @@
 package hu.herpaipeter.aoc2022.day09;
 
 public enum Direction {
-    Right(new ElfPoint(0, 1)),
-    Left(new ElfPoint(0, -1)),
-    Up(new ElfPoint(1, 0)),
-    Down(new ElfPoint(-1, 0));
+    Right(new Point(0, 1)),
+    Left(new Point(0, -1)),
+    Up(new Point(1, 0)),
+    Down(new Point(-1, 0));
 
-    private final ElfPoint vector;
+    private final Point vector;
 
-    Direction(ElfPoint vector) {
+    Direction(Point vector) {
         this.vector = vector;
     }
 
-    public ElfPoint getVector() {
+    public Point getVector() {
         return vector;
+    }
+
+    public Direction getOpposite() {
+        Direction result;
+        switch (this) {
+            case Right -> result = Left;
+            case Left -> result = Right;
+            case Up -> result = Down;
+            case Down -> result = Up;
+            default -> result = null;
+        }
+        return result;
     }
 }

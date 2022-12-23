@@ -1,19 +1,16 @@
 package hu.herpaipeter.aoc2022.day09;
 
-public record ElfPoint(int row, int col) {
+public record Point(int row, int col) {
 
-    private final static ElfPoint ORIGO = new ElfPoint(0, 0);
+    private final static Point ORIGO = new Point(0, 0);
 
-    public static ElfPoint origo() {
+    public static Point origo() {
         return ORIGO;
     }
 
     @Override
     public String toString() {
-        return "ElfPoint{" +
-                "row=" + row +
-                ", col=" + col +
-                '}';
+        return "(" + row + ", " + col + ')';
     }
 
     @Override
@@ -21,10 +18,10 @@ public record ElfPoint(int row, int col) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ElfPoint elfPoint = (ElfPoint) o;
+        Point point = (Point) o;
 
-        if (row != elfPoint.row) return false;
-        return col == elfPoint.col;
+        if (row != point.row) return false;
+        return col == point.col;
     }
 
     @Override
@@ -34,11 +31,11 @@ public record ElfPoint(int row, int col) {
         return result;
     }
 
-    public ElfPoint add(ElfPoint point) {
-        return new ElfPoint(row + point.row, col + point.col);
+    public Point add(Point point) {
+        return new Point(row + point.row, col + point.col);
     }
 
-    public int distanceTo(ElfPoint point) {
+    public int distanceTo(Point point) {
         return Math.max(Math.abs(point.row - row), Math.abs(point.col - col));
     }
 }

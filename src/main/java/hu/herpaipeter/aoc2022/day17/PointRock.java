@@ -1,6 +1,7 @@
 package hu.herpaipeter.aoc2022.day17;
 
-import hu.herpaipeter.aoc2022.day12.Point;
+
+import hu.herpaipeter.aoc2022.day09.Point;
 
 import java.util.Comparator;
 import java.util.List;
