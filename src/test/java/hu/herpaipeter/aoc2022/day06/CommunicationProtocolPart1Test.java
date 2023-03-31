@@ -42,7 +42,7 @@ public class CommunicationProtocolPart1Test {
     }
 
     @Test
-    void string_length_5_with_repeated_chars_in_the_first_4_should_return_minus_5() {
+    void string_length_5_with_repeated_chars_in_the_first_4_should_return_5() {
         assertEquals(5, protocol.getMarkerStart("abcad"));
     }
 
