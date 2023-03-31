@@ -16,7 +16,7 @@ public class StringValidatorTest {
     }
 
     @Test
-    void one_char_should_not_unique() {
+    void one_char_should_be_unique() {
         assertTrue(StringValidator.containsUniqueChars("a"));
     }
 
